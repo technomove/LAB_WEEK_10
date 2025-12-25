@@ -2,13 +2,29 @@ package com.example.lab_week_10.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.lab_week_10.data.TotalDao
+import com.example.lab_week_10.data.TotalEntity
+import kotlinx.coroutines.launch
 
 class TotalViewModel : ViewModel() {
 
     val total = MutableLiveData<Int>()
+    lateinit var totalDao: TotalDao
+
+    fun setDao(dao: TotalDao) {
+        this.totalDao = dao
+    }
 
     fun addNumber(number: Int) {
         val currentTotal = total.value ?: 0
-        total.value = currentTotal + number
+        val newTotal = currentTotal + number
+        total.value = newTotal
+
+        viewModelScope.launch {
+            totalDao.insertTotal(
+                TotalEntity(total = newTotal)
+            )
+        }
     }
 }

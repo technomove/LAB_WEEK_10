@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.lab_week_10.data.TotalDatabase
 import com.example.lab_week_10.viewmodels.TotalViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val totalViewModel = ViewModelProvider(this)[TotalViewModel::class.java]
+
+        val database = TotalDatabase.getDatabase(this)
+        totalViewModel.setDao(database.totalDao())
+
         val textTotal = findViewById<TextView>(R.id.textTotal)
 
         totalViewModel.total.observe(this) { value ->
