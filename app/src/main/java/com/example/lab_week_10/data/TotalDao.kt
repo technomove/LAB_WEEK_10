@@ -11,6 +11,6 @@ interface TotalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTotal(totalEntity: TotalEntity)
 
-    @Query("SELECT * FROM total_table ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM total ORDER BY id DESC LIMIT 1")
     suspend fun getLastTotal(): TotalEntity?
 }

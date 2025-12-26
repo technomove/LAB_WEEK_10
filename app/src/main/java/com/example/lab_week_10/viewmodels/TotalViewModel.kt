@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lab_week_10.data.TotalDao
 import com.example.lab_week_10.data.TotalEntity
+import com.example.lab_week_10.data.TotalObject
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class TotalViewModel : ViewModel() {
 
@@ -21,9 +23,14 @@ class TotalViewModel : ViewModel() {
         val newTotal = currentTotal + number
         total.value = newTotal
 
+        val totalObject = TotalObject(
+            value = newTotal,
+            date = Date().toString()
+        )
+
         viewModelScope.launch {
             totalDao.insertTotal(
-                TotalEntity(total = newTotal)
+                TotalEntity(total = totalObject)
             )
         }
     }
